@@ -120,6 +120,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68328356150d62e49bd0e5683f3d5c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animancerComponent: {fileID: 488027651840759369}
   idleClip: {fileID: 7400000, guid: 1425ae77cf06a3a438fdc8f2aebdd664, type: 2}
-  runeClip: {fileID: 7400000, guid: 379dc75ee073f6f4790fe06498b2d823, type: 2}
+  runClip: {fileID: 7400000, guid: f9051c306ffea7d46aa887f2d57ff680, type: 2}
+  animancerComponent: {fileID: 488027651840759369}
+  idleTransition:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes:
+      - 0.3262718
+      - 0.6648649
+      - NaN
+      _Callbacks:
+      - rid: 4027069759310790660
+      - rid: 4027069759310790662
+      _Names:
+      - {fileID: 11400000, guid: 5f03c244360a60c4d9067f8b47925e87, type: 2}
+      - {fileID: 11400000, guid: ca5fcd67939f4b74f95bfaf767dbaf83, type: 2}
+    _Clip: {fileID: 7400000, guid: 1425ae77cf06a3a438fdc8f2aebdd664, type: 2}
+    _NormalizedStartTime: NaN
+  runTransition:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: f9051c306ffea7d46aa887f2d57ff680, type: 2}
+    _NormalizedStartTime: NaN
+  clipTransitionWeight: 0.62397754
+  mixerTransition:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Animations:
+    - {fileID: 7400000, guid: 1425ae77cf06a3a438fdc8f2aebdd664, type: 2}
+    - {fileID: 7400000, guid: f9051c306ffea7d46aa887f2d57ff680, type: 2}
+    _Speeds: []
+    _SynchronizeChildren: 
+    _Thresholds:
+    - 0
+    - 1
+    _DefaultParameter: 0
+    _ExtrapolateSpeed: 1
+    _ParameterName: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4027069759310790660
+      type: {class: UnityEvent, ns: Animancer, asm: Kybernetik.Animancer}
+      data:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4011325151618758193}
+            m_TargetAssemblyTypeName: AnimancerTest, Assembly-CSharp
+            m_MethodName: AnimancerTestEvent01
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - rid: 4027069759310790662
+      type: {class: UnityEvent, ns: Animancer, asm: Kybernetik.Animancer}
+      data:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4011325151618758193}
+            m_TargetAssemblyTypeName: AnimancerTest, Assembly-CSharp
+            m_MethodName: AnimancerTestEvent02
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
