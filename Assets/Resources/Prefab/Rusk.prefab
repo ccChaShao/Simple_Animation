@@ -61,10 +61,65 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
         type: 3}
       propertyPath: m_Name
-      value: Rusk_ver1.1
+      value: Rusk
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 488027651840759369}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4011325151618758193}
   m_SourcePrefab: {fileID: 100100000, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac, type: 3}
+--- !u!95 &2678709430053074694 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
+    type: 3}
+  m_PrefabInstance: {fileID: 8378425531146554007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8684994454035167174 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
+    type: 3}
+  m_PrefabInstance: {fileID: 8378425531146554007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &488027651840759369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684994454035167174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 2678709430053074694}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
+--- !u!114 &4011325151618758193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684994454035167174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68328356150d62e49bd0e5683f3d5c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animancerComponent: {fileID: 488027651840759369}
+  idleClip: {fileID: 7400000, guid: 1425ae77cf06a3a438fdc8f2aebdd664, type: 2}
+  runeClip: {fileID: 7400000, guid: 379dc75ee073f6f4790fe06498b2d823, type: 2}
