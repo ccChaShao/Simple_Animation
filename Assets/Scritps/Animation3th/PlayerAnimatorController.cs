@@ -41,7 +41,6 @@ namespace Animation3th
             m_Animator.SetBool(isCrouching, m_InputController.isCrouching);
             m_Animator.SetBool(isJump, m_InputController.isJump);
             m_Animator.SetBool(isGround, m_PlayerContorller.isGrounded);
-            Debug.LogError("[UpdateAnimatorState]: ------------------- " + m_InputController.isJump);
         }
     }
 }
