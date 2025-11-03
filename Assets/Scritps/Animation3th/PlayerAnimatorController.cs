@@ -15,6 +15,7 @@ namespace Animation3th
         private Vector2 m_currentInputBlend = Vector2.zero;
         private static int inputX = Animator.StringToHash("inputX");
         private static int inputY = Animator.StringToHash("inputY");
+        private static int isCrouching = Animator.StringToHash("isCrouching");
         
         private void Awake()
         {
@@ -33,6 +34,8 @@ namespace Animation3th
             m_currentInputBlend = Vector2.Lerp(m_currentInputBlend, m_InputController.moveValue, smoothTime * deltaTime);
             m_Animator.SetFloat(inputX, m_currentInputBlend.x * m_PlayerContorller.currentSpeed);
             m_Animator.SetFloat(inputY, m_currentInputBlend.y * m_PlayerContorller.currentSpeed);
+            
+            m_Animator.SetBool(isCrouching, m_InputController.isCrouching);
         }
     }
 }

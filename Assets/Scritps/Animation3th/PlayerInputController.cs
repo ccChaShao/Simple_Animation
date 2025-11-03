@@ -12,6 +12,7 @@ namespace Animation3th
         public bool isSprint => m_InputService.inputSystem.Player.Sprint.triggered;
         public bool isSprinting => m_InputService.inputSystem.Player.Sprint.inProgress;
         public bool isCrouch => m_InputService.inputSystem.Player.Crouch.triggered;
+        public bool isCrouching => m_InputService.inputSystem.Player.Crouch.inProgress;
         public bool isJump => m_InputService.inputSystem.Player.Jump.triggered;
         
         private void Awake()
@@ -23,7 +24,7 @@ namespace Animation3th
 
         private void Update()
         {
-            Debug.Log("[Update] : -------" + isSprint + "----" + isSprinting);
+            Debug.Log("[Update] : -------" + isCrouch + "----" + isCrouching);
         }
 
         private void OnMovePerformed(InputAction.CallbackContext context) { }
