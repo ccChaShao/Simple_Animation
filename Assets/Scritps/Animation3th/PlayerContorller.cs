@@ -10,6 +10,7 @@ namespace Animation3th
         private Camera m_Camera;
         private CharacterController m_CharacterController;
         private PlayerInputController m_InputController;
+        private Animator m_Animator;
         
         [Header("输入")]
         private Vector3 m_Direction;
@@ -27,19 +28,19 @@ namespace Animation3th
             m_Camera = FindAnyObjectByType<Camera>();
             m_CharacterController = GetComponent<CharacterController>();
             m_InputController = GetComponent<PlayerInputController>();
+            m_Animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            SetPlayerMove(Time.deltaTime);
             SetPlayerRotation(Time.deltaTime);
         }
 
-        private void SetPlayerMove(float deltaTime)
+        private void OnAnimatorMove()
         {
             if (m_InputController.moveValue.magnitude > 0.1f)
             {
-                if (m_InputController.isSprint)
+                if (m_InputController.isSprinting)
                 {
                     m_CurrentSpeed = runeSpeed;
                 }
@@ -52,13 +53,11 @@ namespace Animation3th
             {
                 m_CurrentSpeed = 0.0f;
             }
-            
-            // 根据输入常见移动方向向量
-            m_Direction = new Vector3(m_InputController.moveValue.x, 0.0f, m_InputController.moveValue.y);
-            
-            // 方向转换
-            m_MoveDirection = transform.TransformDirection(m_Direction);
-            m_CharacterController.Move(m_MoveDirection.normalized * m_CurrentSpeed * deltaTime);
+        
+            // 当前帧相对于上一帧的位移增量
+             Vector3 deltaPosition = m_Animator.deltaPosition;   
+             // 移动 CharacterController
+             m_CharacterController.Move(deltaPosition);
         }
 
         private void SetPlayerRotation(float deltaTime)

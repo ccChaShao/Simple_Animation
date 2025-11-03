@@ -166,7 +166,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 1a47ea2b5ff7ab541b20b7be3b6a9bac,
         type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -270,3 +270,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022cae80c28b4b54a914a45109601920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothTime: 5
