@@ -27,9 +27,11 @@ namespace Animation3th
         public float jumpHeight = 2.0f;
         public float gravity = -9.81f;
 
+        private Vector3 m_HorizontalVelocity;
         private Vector3 m_VerticalVelocity;
         public float currentSpeed => m_CurrentSpeed;
         public bool isGrounded => m_IsInGround;
+        public Vector3 horizontalVelocity => m_HorizontalVelocity;
         public Vector3 verticalVelocity => m_VerticalVelocity;
         
 
@@ -44,8 +46,9 @@ namespace Animation3th
         private void Update()
         {
             SetPlayerRotation(Time.deltaTime);
-            SetPlayerGravity(Time.deltaTime);
             SetPlayerJump(Time.deltaTime);
+            SetGroundVeticalVelocity(Time.deltaTime);
+            SetAirHorizontalVelocity(Time.deltaTime);
         }
 
         private void OnAnimatorMove()
@@ -78,11 +81,18 @@ namespace Animation3th
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * deltaTime);
         }
 
-        private void SetPlayerGravity(float deltaTime)
+        private void SetPlayerJump(float deltaTime)
+        {
+            if (m_IsInGround && m_InputController.isJump)
+            {
+                m_VerticalVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            }
+        }
+
+        private void SetGroundVeticalVelocity(float deltaTime)
         {
             m_CharacterController.Move(m_VerticalVelocity * deltaTime);
             m_IsInGround = m_CharacterController.isGrounded;
-            
             if (m_IsInGround)
             {
                 // 当isGrounded为true时，将Y轴方向的速度设为了一个较小的负值，这是为了确保能稳定触碰地面，避免isGrounded误判为false
@@ -94,11 +104,14 @@ namespace Animation3th
             }
         }
 
-        private void SetPlayerJump(float deltaTime)
+        private void SetAirHorizontalVelocity(float deltaTime)
         {
-            if (m_IsInGround && m_InputController.isJump)
+            if (!m_IsInGround)
             {
-                m_VerticalVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+                m_CharacterController.Move(m_HorizontalVelocity * deltaTime);
+                //将该向量从局部坐标系转换为世界坐标系，得到最终的移动方向
+                var direction = new Vector3(m_InputController.moveValue.x, 0, m_InputController.moveValue.y);
+                m_HorizontalVelocity  = transform.TransformDirection(direction) * currentSpeed;
             }
         }
     }
