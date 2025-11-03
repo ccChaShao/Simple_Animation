@@ -9,11 +9,11 @@ namespace Animation3th
         private InputService m_InputService;
 
         public Vector2 moveValue => m_InputService.inputSystem.Player.Move.ReadValue<Vector2>();
-        public bool isSprint => m_InputService.inputSystem.Player.Sprint.triggered;
-        public bool isSprinting => m_InputService.inputSystem.Player.Sprint.inProgress;
-        public bool isCrouch => m_InputService.inputSystem.Player.Crouch.triggered;
-        public bool isCrouching => m_InputService.inputSystem.Player.Crouch.inProgress;
-        public bool isJump => m_InputService.inputSystem.Player.Jump.triggered;
+        public bool isSprint => m_InputService.inputSystem.Player.Sprint.IsPressed();
+        public bool isSprinting => m_InputService.inputSystem.Player.Sprint.IsInProgress();
+        public bool isCrouch => m_InputService.inputSystem.Player.Crouch.IsPressed();
+        public bool isCrouching => m_InputService.inputSystem.Player.Crouch.IsInProgress();
+        public bool isJump => m_InputService.inputSystem.Player.Jump.IsPressed();
         
         private void Awake()
         {
@@ -24,7 +24,7 @@ namespace Animation3th
 
         private void Update()
         {
-            Debug.Log("[Update] : -------" + isCrouch + "----" + isCrouching);
+            // Debug.Log("[Update] : -------" + isCrouch + "----" + isCrouching);
         }
 
         private void OnMovePerformed(InputAction.CallbackContext context) { }

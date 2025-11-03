@@ -30,6 +30,7 @@ namespace Animation3th
         private Vector3 m_VerticalVelocity;
         public float currentSpeed => m_CurrentSpeed;
         public bool isGrounded => m_IsInGround;
+        public Vector3 verticalVelocity => m_VerticalVelocity;
         
 
         private void Awake()

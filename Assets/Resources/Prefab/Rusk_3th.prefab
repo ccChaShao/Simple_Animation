@@ -258,6 +258,8 @@ MonoBehaviour:
   rotationSpeed: 3
   walkSpeed: 1
   runeSpeed: 4
+  jumpHeight: 2
+  gravity: -29.43
 --- !u!114 &1883565240045447876
 MonoBehaviour:
   m_ObjectHideFlags: 0

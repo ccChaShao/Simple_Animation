@@ -16,6 +16,9 @@ namespace Animation3th
         private static int inputX = Animator.StringToHash("inputX");
         private static int inputY = Animator.StringToHash("inputY");
         private static int isCrouching = Animator.StringToHash("isCrouching");
+        private static int jumpSpeed = Animator.StringToHash("jumpSpeed");
+        private static int isJump = Animator.StringToHash("isJump");
+        private static int isGround = Animator.StringToHash("isGround");
         
         private void Awake()
         {
@@ -34,8 +37,11 @@ namespace Animation3th
             m_currentInputBlend = Vector2.Lerp(m_currentInputBlend, m_InputController.moveValue, smoothTime * deltaTime);
             m_Animator.SetFloat(inputX, m_currentInputBlend.x * m_PlayerContorller.currentSpeed);
             m_Animator.SetFloat(inputY, m_currentInputBlend.y * m_PlayerContorller.currentSpeed);
-            
+            m_Animator.SetFloat(jumpSpeed, m_PlayerContorller.verticalVelocity.y);
             m_Animator.SetBool(isCrouching, m_InputController.isCrouching);
+            m_Animator.SetBool(isJump, m_InputController.isJump);
+            m_Animator.SetBool(isGround, m_PlayerContorller.isGrounded);
+            Debug.LogError("[UpdateAnimatorState]: ------------------- " + m_InputController.isJump);
         }
     }
 }
