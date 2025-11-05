@@ -13,35 +13,32 @@ namespace Animation3th
         private PlayerInputController m_InputController;
         private Animator m_Animator;
         
-        [Header("角色状态")]
+        [TitleGroup("角色状态")]
         [ReadOnly, ShowInInspector] private float m_CurrentSpeed; // 当前速度
         [ReadOnly, ShowInInspector] private float m_CurrentAngle; // 当前角度
         [ReadOnly, ShowInInspector] private bool m_IsInGround;
-        [ReadOnly, ShowInInspector] private bool m_IsTurning;
+        [ReadOnly, ShowInInspector] private bool m_IsAutoTurning;
         [ReadOnly, ShowInInspector] private bool m_IsIdle;
 
-        [Header("移动")] 
+        [TitleGroup("移动")] 
         public float walkSpeed = 1f;
         public float runeSpeed = 4f;    
         private Vector3 m_MoveDirection;
 
-        [Header("跳跃")] 
+        [TitleGroup("跳跃")] 
         public float jumpHeight = 2.0f;
         public float gravity = -9.81f;
 
-        [BoxGroup("转向")] 
+        [TitleGroup("转向")] 
         public bool enableCustomTurn;
-        [BoxGroup("转向/传统")]
-        public float customTurnSpeed = 1f;
-        [BoxGroup("转向/Pubg")]
-        public float angleThreshold = 45.0f; // 角度阈值
-        public float turnSpeed = 8.0f; // 转向速度
-        public float turnDelay = 3.0f; // 转生动画延迟发生时间
+        public float trunSpeed = 5.0f;
+        public float turnAngleThreshold = 45.0f; // 角度阈值
+        public float turnCoolDown = 3.0f; // 转生动画延迟发生时间
         public float turnTime = 0.6f; // 转身需要的时间
-        private float lastTurnTime; // 上次转身时间
-        private float turnStartTime; // 转身开始时间
-        private Quaternion startRotation; // 转身开始时的角度
-        private Quaternion targetRotation; // 转身的目标角度
+        private float m_LastTurnTime; // 上次转身时间
+        private float m_TurnStartTime; // 转身开始时间
+        private Quaternion m_StartRotation; // 转身开始时的角度
+        private Quaternion m_TargetRotation; // 转身的目标角度
 
         private Vector3 m_PlayerForward; // 玩家水平面正前方
         private Vector3 m_CameraForward; // 相机水平面正前方
@@ -52,6 +49,8 @@ namespace Animation3th
         public bool isGrounded => m_IsInGround;
         public Vector3 horizontalVelocity => m_HorizontalVelocity;
         public Vector3 verticalVelocity => m_VerticalVelocity;
+        public bool isAutoTurning => m_IsAutoTurning;
+        public float currentAngle => m_CurrentAngle;
         
 
         private void Awake()
@@ -64,9 +63,9 @@ namespace Animation3th
 
         private void Update()
         {
-            CalculateCameraAngle();
-            SetPlayerRotation(Time.deltaTime);
+            CalculateBaseParams();
             SetPlayerJump(Time.deltaTime);
+            SetPlayerRotation(Time.deltaTime);
             SetGroundVeticalVelocity(Time.deltaTime);
             SetAirHorizontalVelocity(Time.deltaTime);
         }
@@ -90,8 +89,38 @@ namespace Animation3th
             }
         
             // 当前帧相对于上一帧的位移增量
-             Vector3 deltaPosition = m_Animator.deltaPosition;   
+             Vector3 deltaPosition = m_Animator.deltaPosition;
+             deltaPosition.y = 0;
              m_CharacterController.Move(deltaPosition);
+        }
+
+        /// <summary>
+        /// 用于计算基础参数
+        /// </summary>
+        private void CalculateBaseParams()
+        {
+            // 状态
+            m_IsIdle = m_InputController.moveValue.magnitude < 0.1f;
+            
+            // 更新相机水平面正方向
+            m_CameraForward = m_Camera.transform.forward;
+            m_CameraForward.y = 0;
+            m_CameraForward.Normalize();
+            
+            // 更新角色水平面正方向
+            m_PlayerForward = transform.forward;
+            m_PlayerForward.y = 0;
+            m_PlayerForward.Normalize();
+            
+            // 当前夹角（永远都是正数[0,180]）
+            m_CurrentAngle = Vector3.Angle(m_PlayerForward, m_CameraForward);
+            // 叉乘向量（用y进行判断左右关系）
+            Vector3 crossV3 = Vector3.Cross(m_PlayerForward, m_CameraForward);
+            // y小于0 说明相机在人的左侧，左侧定义为负方向
+            if (crossV3.y < 0)
+            {
+                m_CurrentAngle *= -1;
+            }
         }
 
         private void SetPlayerRotation(float deltaTime)
@@ -110,12 +139,38 @@ namespace Animation3th
         {
             float yRotation = m_Camera.transform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0, yRotation, 0);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, customTurnSpeed * deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, trunSpeed * deltaTime);
         }
 
         private void SetPlayerRotationPubg(float deltaTime)
         {
-            
+            // 没有移动输入，没有下蹲输入 & 角度大于阈值 & 不在旋转中 & 不在旋转cd中 & 在地面
+            if (m_IsIdle && !m_InputController.isCrouching && m_IsInGround && MathF.Abs(m_CurrentAngle) > turnAngleThreshold && !m_IsAutoTurning && Time.time - m_LastTurnTime >= turnCoolDown)
+            {
+                m_IsAutoTurning = true;
+                m_TurnStartTime = Time.time;
+                m_StartRotation = transform.rotation;
+                m_TargetRotation = Quaternion.LookRotation(m_CameraForward);
+            }
+
+            // 有移动输入 || 旋转结束
+            if (!m_IsIdle || (m_IsAutoTurning && Time.time - m_TurnStartTime >= turnTime))
+            {
+                m_IsAutoTurning = false;
+                m_LastTurnTime = Time.time;
+            }
+
+            // 人物旋转执行
+            if (m_IsAutoTurning)
+            {
+                float turnProgress = Mathf.Clamp01((Time.time - m_TurnStartTime) / turnTime);
+                transform.rotation = Quaternion.Slerp(m_StartRotation, m_TargetRotation, turnProgress);
+            }
+            else if (!m_IsIdle)
+            {
+                Quaternion endRotation = Quaternion.LookRotation(m_CameraForward);
+                transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, trunSpeed * deltaTime);
+            }
         }
 
         private void SetPlayerJump(float deltaTime)
@@ -149,31 +204,6 @@ namespace Animation3th
                 //将该向量从局部坐标系转换为世界坐标系，得到最终的移动方向
                 var direction = new Vector3(m_InputController.moveValue.x, 0, m_InputController.moveValue.y);
                 m_HorizontalVelocity  = transform.TransformDirection(direction) * currentSpeed;
-            }
-        }
-
-        private void CalculateCameraAngle()
-        {
-            // 更新相机水平面正方向
-            m_CameraForward = m_Camera.transform.forward;
-            m_CameraForward.y = 0;
-            m_CameraForward.Normalize();
-            
-            // 更新角色水平面正方向
-            m_PlayerForward = transform.forward;
-            m_PlayerForward.y = 0;
-            m_PlayerForward.Normalize();
-            
-            // 当前夹角
-            m_CurrentAngle = Vector3.Angle(m_PlayerForward, m_CameraForward);
-            
-            // 叉乘判断左右
-            float cross = Vector3.Cross(m_PlayerForward, m_CameraForward).y;
-            
-            // y小于0 说明相机在人的左侧，左侧定义为负方向
-            if (cross < 0)
-            {
-                m_CurrentAngle *= -1;
             }
         }
     }

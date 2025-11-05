@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Animation3th
@@ -10,7 +11,8 @@ namespace Animation3th
         private PlayerInputController m_InputController;
         private PlayerContorller m_PlayerContorller;
         
-        public float smoothTime = 5.0f;//平滑插值速度
+        [TitleGroup("移动动画")]
+        public float smoothTime = 5.0f; //平滑插值速度
 
         private Vector2 m_currentInputBlend = Vector2.zero;
         private static int inputX = Animator.StringToHash("inputX");
@@ -19,6 +21,8 @@ namespace Animation3th
         private static int jumpSpeed = Animator.StringToHash("jumpSpeed");
         private static int isJump = Animator.StringToHash("isJump");
         private static int isGround = Animator.StringToHash("isGround");
+        private static int turnAngle = Animator.StringToHash("turnAngle");
+        private static int isAutoTurning = Animator.StringToHash("isAutoTurning");
         
         private void Awake()
         {
@@ -41,6 +45,8 @@ namespace Animation3th
             m_Animator.SetBool(isCrouching, m_InputController.isCrouching);
             m_Animator.SetBool(isJump, m_InputController.isJump);
             m_Animator.SetBool(isGround, m_PlayerContorller.isGrounded);
+            m_Animator.SetBool(isAutoTurning, m_PlayerContorller.isAutoTurning);
+            m_Animator.SetFloat(turnAngle, m_PlayerContorller.currentAngle);
         }
     }
 }

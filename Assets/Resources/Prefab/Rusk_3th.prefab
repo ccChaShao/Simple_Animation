@@ -255,11 +255,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6863684e2ac4c1fa24278fae0a7f0bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 3
   walkSpeed: 1
   runeSpeed: 4
   jumpHeight: 2
   gravity: -29.43
+  enableCustomTurn: 0
+  trunSpeed: 5
+  turnAngleThreshold: 45
+  turnCoolDown: 3
+  turnTime: 1
 --- !u!114 &1883565240045447876
 MonoBehaviour:
   m_ObjectHideFlags: 0
