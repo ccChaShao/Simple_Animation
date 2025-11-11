@@ -14,6 +14,8 @@ namespace Animation3th
         private Animator m_Animator;
         
         [TitleGroup("角色状态")]
+        [ReadOnly, ShowInInspector] private float m_AnimationSpeed;
+        [ReadOnly, ShowInInspector] private float m_HumanScale;
         [ReadOnly, ShowInInspector] private float m_CurrentSpeed; // 当前速度
         [ReadOnly, ShowInInspector] private float m_CurrentAngle; // 当前角度
         [ReadOnly, ShowInInspector] private bool m_IsInGround;
@@ -21,8 +23,8 @@ namespace Animation3th
         [ReadOnly, ShowInInspector] private bool m_IsIdle;
 
         [TitleGroup("移动")] 
-        public float walkSpeed = 1f;
-        public float runeSpeed = 4f;    
+        public float walkSpeed = 1.0f;
+        public float runeSpeed = 2.0f;    
         private Vector3 m_MoveDirection;
 
         [TitleGroup("跳跃")] 
@@ -68,6 +70,9 @@ namespace Animation3th
             SetPlayerRotation(Time.deltaTime);
             SetGroundVeticalVelocity(Time.deltaTime);
             SetAirHorizontalVelocity(Time.deltaTime);
+            
+            m_AnimationSpeed = m_Animator.speed;
+            m_HumanScale = m_Animator.humanScale;
         }
 
         private void OnAnimatorMove()

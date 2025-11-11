@@ -29,6 +29,7 @@ namespace Animation3th
             m_Animator = GetComponent<Animator>();
             m_InputController = GetComponent<PlayerInputController>();
             m_PlayerContorller = GetComponent<PlayerContorller>();
+            m_Animator.speed /= m_Animator.humanScale * transform.localScale.x;
         }
 
         private void Update()
