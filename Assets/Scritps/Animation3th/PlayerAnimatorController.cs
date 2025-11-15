@@ -24,6 +24,8 @@ namespace Animation3th
         private static int turnAngle = Animator.StringToHash("turnAngle");
         private static int isAutoTurning = Animator.StringToHash("isAutoTurning");
         
+        public Animator Animator => m_Animator; 
+        
         private void Awake()
         {
             m_Animator = GetComponent<Animator>();
