@@ -20,6 +20,10 @@ namespace Animation3th
             }
             foreach (var c in animatorControllers)
             {
+                if (c.Animator == null)
+                {
+                    continue;
+                }
                 c.Animator.speed = enableAnimSpeedSyn
                     ? 1 / c.Animator.humanScale * c.transform.localScale.x
                     : 1;
