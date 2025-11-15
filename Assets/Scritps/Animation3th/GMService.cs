@@ -25,7 +25,7 @@ namespace Animation3th
                     continue;
                 }
                 c.Animator.speed = enableAnimSpeedSyn
-                    ? 1 / c.Animator.humanScale * c.transform.localScale.x
+                    ? 1 / (c.Animator.humanScale * c.transform.localScale.x)
                     : 1;
                 Debug.Log("[SwitchEnableAnimSpeedSyn] : 动画更新完成。 " + c.name + "-" + c.Animator.speed);
             }
